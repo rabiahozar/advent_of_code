@@ -1,15 +1,15 @@
-#include <iostream>
 #include <fstream>
-#include <vector>
 #include <sstream>
 
-using Command = std::pair<std::string, int>;
+#include <dive.h>
 
-int read_input(std::vector<Command>& commands)
+namespace advent
+{
+auto Day2::read_input(std::vector<Command>& commands) -> int
 {
     std::ifstream in_file;
     
-    in_file.open("input.txt");
+    in_file.open("day_2_input.txt");
 
     if (in_file.is_open())
     {
@@ -30,7 +30,7 @@ int read_input(std::vector<Command>& commands)
     return -1;
 }
 
-int move(std::vector<Command>& commands)
+int Day2::move(std::vector<Command>& commands)
 {
     int position_x = 0;
     int position_y = 0;
@@ -52,7 +52,7 @@ int move(std::vector<Command>& commands)
     return position_x * position_y;
 }
 
-double move_with_aim(std::vector<Command>& commands)
+auto Day2::move_with_aim(std::vector<Command>& commands) -> double
 {
     double position_x = 0;
     double position_y = 0;
@@ -76,8 +76,7 @@ double move_with_aim(std::vector<Command>& commands)
     std::cout << position_x << " " << position_y << std::endl;
     return position_x * position_y;
 }
-
-int main(int argc, char **argv)
+auto Day2::solve() -> void
 {
     std::vector<Command> commands;
     if (read_input(commands))
@@ -86,5 +85,5 @@ int main(int argc, char **argv)
         std::cout <<  std::fixed << "Part2.Result: " << move_with_aim(commands) << std::endl;
 
     }
-    return 0;
 }
+} // namespace advent

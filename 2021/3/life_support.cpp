@@ -3,15 +3,15 @@
 #include <vector>
 #include <cmath>
 
+#include <life_support.h>
+
 namespace advent
 {
-using Diagnostic = std::vector<std::vector<int>>;
-
-int read_input(Diagnostic& report)
+auto Day3::read_input(Diagnostic& report) -> int
 {
     std::ifstream in_file;
     
-    in_file.open("input.txt");
+    in_file.open("day_3_input.txt");
 
     if (in_file.is_open())
     {
@@ -29,7 +29,7 @@ int read_input(Diagnostic& report)
     return -1;
 }
 
-int calculate_power_consumtion(Diagnostic& report)
+auto Day3::calculate_power_consumtion(Diagnostic& report) -> int
 {
     int total_report_number = report.size();
     int binary_array_size = 0;
@@ -65,7 +65,7 @@ int calculate_power_consumtion(Diagnostic& report)
     } 
     return gamma_rate_value * epsilon_rate_value;
 }
-int binary_to_decimal(const std::vector<int> binary_nummer)
+auto Day3::binary_to_decimal(const std::vector<int> binary_nummer) -> int
 {
     int decimal_value =0;
     for (int index = 0; index < binary_nummer.size() ; index++)
@@ -77,7 +77,8 @@ int binary_to_decimal(const std::vector<int> binary_nummer)
     }
     return decimal_value;
 }
-std::vector<int> calculate_life_support_rating(Diagnostic& report, bool use_most_common, int& index)
+auto Day3::calculate_life_support_rating(Diagnostic& report, bool use_most_common,
+                                    int& index) -> std::vector<int>
 {
     if (report.size() == 1)
     {
@@ -122,34 +123,33 @@ std::vector<int> calculate_life_support_rating(Diagnostic& report, bool use_most
     
 }
 
-int calculate_oxygen_genarator_rating(Diagnostic& report)
+auto Day3::calculate_oxygen_genarator_rating(Diagnostic& report) -> int
 {
     int index = 0;
     std::vector<int> rating = calculate_life_support_rating(report, true, index);
     return binary_to_decimal(rating);
 }
-int calculate_co2_scrubber_rating(Diagnostic& report)
+auto Day3::calculate_co2_scrubber_rating(Diagnostic& report) -> int
 {
     int index = 0;
     std::vector<int> rating = calculate_life_support_rating(report, false, index);
     return binary_to_decimal(rating);
 }
 
-int get_life_support_rating_of_submarine(Diagnostic& report)
+auto Day3::get_life_support_rating_of_submarine(Diagnostic& report) -> int
 {
     return calculate_oxygen_genarator_rating(report) * 
             calculate_co2_scrubber_rating(report);
 }
-} // end of advent
-
-int main(int argc, char **argv)
+auto Day3::solve() -> void
 {
-    advent::Diagnostic report;
-    if (advent::read_input(report))
+    Diagnostic report;
+    if (read_input(report))
     {
-        std::cout << "Part1.Result: " << advent::calculate_power_consumtion(report) << std::endl;
-        std::cout << "Part2.Result: " << advent::get_life_support_rating_of_submarine(report) << std::endl;
+        std::cout << "Part1.Result: " << calculate_power_consumtion(report) << std::endl;
+        std::cout << "Part2.Result: " << get_life_support_rating_of_submarine(report) << std::endl;
 
     }
-    return 0;
 }
+} //namespace advent
+

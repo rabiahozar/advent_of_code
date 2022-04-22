@@ -3,6 +3,4 @@ set (CMAKE_CXX_STANDARD 17)
 
 project(diagnostic)
 
-add_executable(${PROJECT_NAME} puzzle.cpp)
-
-configure_file(${CMAKE_SOURCE_DIR}/input.txt ${CMAKE_CURRENT_BINARY_DIR}/input.txt COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/input.txt ${CMAKE_BINARY_DIR}/day_3_input.txt COPYONLY)

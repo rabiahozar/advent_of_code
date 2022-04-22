@@ -1,14 +1,13 @@
-#include <iostream>
+#include <sonar_sweep.h>
 #include <fstream>
-#include <vector>
 
 namespace advent
 {
-int read_input(std::vector<int>& numbers)
+auto Day1::read_input(std::vector<int>& numbers) -> int
 {
     std::ifstream in_file;
     
-    in_file.open("input.txt");
+    in_file.open("day_1_input.txt");
 
     if (in_file.is_open())
     {
@@ -23,7 +22,7 @@ int read_input(std::vector<int>& numbers)
     return -1;
 }
 
-int calculate_increased_days(std::vector<int>& numbers)
+auto Day1::calculate_increased_days(std::vector<int>& numbers) -> int
 {
     int count = 0;
     for (int front = 0, back = front+1; back < numbers.size(); front++, back++)
@@ -36,7 +35,7 @@ int calculate_increased_days(std::vector<int>& numbers)
     return count;
 }
 
-int calculate_increased_window_count(std::vector<int>& numbers)
+auto Day1::calculate_increased_window_count(std::vector<int>& numbers) -> int
 {
     std::vector<int> sums;
     const int windows_size = 3;
@@ -52,15 +51,14 @@ int calculate_increased_window_count(std::vector<int>& numbers)
     }
     return calculate_increased_days(sums);
 }
-}
-int main(int argc, char **argv)
+auto Day1::solve() -> void
 {
     std::vector<int> numbers;
-    if (advent::read_input(numbers))
+    if (read_input(numbers))
     {
-        std::cout << "Part1.Result: " << advent::calculate_increased_days(numbers) << std::endl;
-        std::cout << "Part2.Result: " << advent::calculate_increased_window_count(numbers) << std::endl;
+        std::cout << "Day1.Part1.Result: " << calculate_increased_days(numbers) << std::endl;
+        std::cout << "Day1.Part2.Result: " << calculate_increased_window_count(numbers) << std::endl;
 
     }
-    return 0;
 }
+} //namespace advent
