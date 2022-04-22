@@ -9,7 +9,7 @@ int read_input(std::vector<Command>& commands)
 {
     std::ifstream in_file;
     
-    in_file.open("/mnt/test/adventofcode/2021/2/input.txt");
+    in_file.open("input.txt");
 
     if (in_file.is_open())
     {

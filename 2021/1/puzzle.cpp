@@ -2,11 +2,13 @@
 #include <fstream>
 #include <vector>
 
+namespace advent
+{
 int read_input(std::vector<int>& numbers)
 {
     std::ifstream in_file;
     
-    in_file.open("/mnt/vm_shared_folder/adventofcode/1/input.txt");
+    in_file.open("input.txt");
 
     if (in_file.is_open())
     {
@@ -50,13 +52,14 @@ int calculate_increased_window_count(std::vector<int>& numbers)
     }
     return calculate_increased_days(sums);
 }
+}
 int main(int argc, char **argv)
 {
     std::vector<int> numbers;
-    if (read_input(numbers))
+    if (advent::read_input(numbers))
     {
-        std::cout << "Part1.Result: " << calculate_increased_days(numbers) << std::endl;
-        std::cout << "Part2.Result: " << calculate_increased_window_count(numbers) << std::endl;
+        std::cout << "Part1.Result: " << advent::calculate_increased_days(numbers) << std::endl;
+        std::cout << "Part2.Result: " << advent::calculate_increased_window_count(numbers) << std::endl;
 
     }
     return 0;
