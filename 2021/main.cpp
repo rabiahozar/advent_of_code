@@ -25,7 +25,7 @@ auto select_day(int selected_day) -> std::unique_ptr<AdventOfCode>
         return std::move(std::make_unique<advent::Day4>());
         break;
     default:
-        std::cerr << "This day has not been Solved." << std::endl;
+        std::cerr << "This day has not been solved." << std::endl;
         return {};
         break;
     }

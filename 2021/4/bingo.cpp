@@ -91,12 +91,12 @@ auto Day4::MarkVisited(Board& board, int row, int column) -> void
 auto Day4::IsBingo(Board& board) -> bool
 {
     // search bingo horizontal
-    for (int i = 0 ; i < board.size() ; i++)
+    for (int x = 0 ; x < board.size() ; x++)
     {
         bool is_bingo = true;
-        for (int y = 0 ; y < board[i].size() ; y++)
+        for (int y = 0 ; y < board[x].size() ; y++)
         {
-            is_bingo = is_bingo && board[i][y].second;
+            is_bingo = is_bingo && board[x][y].second;
         }
         if ( is_bingo) return is_bingo;
     }
@@ -105,9 +105,9 @@ auto Day4::IsBingo(Board& board) -> bool
     for (int y = 0 ; y < board[0].size() ; y++)
     {
         bool is_bingo = true;
-        for (int i = 0 ; i < board.size() ; i++)
+        for (int x = 0 ; x < board.size() ; x++)
         {
-            is_bingo = is_bingo && board[i][y].second;
+            is_bingo = is_bingo && board[x][y].second;
         }
         if ( is_bingo) return is_bingo;
     }
@@ -154,7 +154,7 @@ auto Day4::FindLoserBoardScore() -> int
     std::set<int>  already_won_boards;
     for (int number : _selected_numbers)
     {
-        for (int i = 0 ; i < _boards.size()  ; i++)
+        for (int i = 0 ; i < _boards.size(); i++)
         {
             if (already_won_boards.size()>0)
             {
