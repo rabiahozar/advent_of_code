@@ -1,6 +1,7 @@
 #include <fstream>
 #include <sstream>
 #include <set>
+#include <algorithm>
 
 #include <bingo.h>
 
@@ -91,13 +92,13 @@ auto Day4::MarkVisited(Board& board, int row, int column) -> void
 auto Day4::IsBingo(Board& board) -> bool
 {
     // search bingo horizontal
-    for (int x = 0 ; x < board.size() ; x++)
+    for (const auto& row: board)
     {
         bool is_bingo = true;
-        for (int y = 0 ; y < board[x].size() ; y++)
+        std::for_each(row.begin(), row.end(), [&is_bingo](const auto& cell)
         {
-            is_bingo = is_bingo && board[x][y].second;
-        }
+            is_bingo = is_bingo && cell.second;
+        });
         if ( is_bingo) return is_bingo;
     }
     if (board.size() == 0) return false;
@@ -117,13 +118,13 @@ auto Day4::IsBingo(Board& board) -> bool
 auto Day4::CalculateBoardScore(Board& board, int selected_number) -> int
 {
     int board_score = 0;
-    for (int i = 0 ; i < board.size() ; i++)
+    for (const auto& row: board)
     {
-        for (int y = 0 ; y < board[i].size() ; y++)
+        for (const auto& cell : row)
         {
-            if (!board[i][y].second)
+            if (!cell.second)
             {
-                board_score += board[i][y].first;
+                board_score += cell.first;
             }
         }
     }
@@ -134,17 +135,21 @@ auto Day4::FindWinnerBoardScore() -> int
 {
     for (int number : _selected_numbers)
     {
-        for (int i = 0 ; i < _boards.size(); i++)
+        auto board_iterator = _boards.begin();
+        auto coordinate_iterator = _coordinates.begin();
+
+        while(board_iterator != _boards.end() || coordinate_iterator != _coordinates.end())
         {
-            auto& board = _boards[i];
-            if (_coordinates[i].find(number) != _coordinates[i].end())
+            if (coordinate_iterator->find(number) != coordinate_iterator->end())
             {
-                MarkVisited(board, _coordinates[i][number].first, _coordinates[i][number].second);
+                MarkVisited(*board_iterator, coordinate_iterator->at(number).first, coordinate_iterator->at(number).second);
             }
-            if (IsBingo(board))
+            if (IsBingo(*board_iterator))
             {
-                return CalculateBoardScore(board, number);
+                return CalculateBoardScore(*board_iterator, number);
             }
+            ++board_iterator;
+            ++coordinate_iterator;
         }
     }
     return 0;
@@ -164,9 +169,10 @@ auto Day4::FindLoserBoardScore() -> int
                 }
             }
             auto& board = _boards[i];
-            if (_coordinates[i].find(number) != _coordinates[i].end())
+            auto& coordinates = _coordinates[i];
+            if (coordinates.find(number) != coordinates.end())
             {
-                MarkVisited(board, _coordinates[i][number].first, _coordinates[i][number].second);
+                MarkVisited(board, coordinates[number].first, coordinates[number].second);
             }
             if (IsBingo(board))
             {
