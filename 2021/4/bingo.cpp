@@ -85,11 +85,16 @@ auto Day4::ReadInput() -> int
     return -1;
 }
 
-auto Day4::MarkVisited(Board& board, std::pair<int, int>& coordinate) -> void
+auto Day4::MarkVisited(Board& board, const Coordinate& coordinate) -> void
 {
     board[coordinate.first][coordinate.second].second = true;
 }
-auto Day4::IsBingo(Board& board) -> bool
+auto Day4::IsVisited(const CellContent& cell) -> bool
+{
+    return cell.second;
+}
+
+auto Day4::IsBingo(const Board& board) -> bool
 {
     // search bingo horizontal
     for (const auto& row: board)
@@ -122,7 +127,7 @@ auto Day4::CalculateBoardScore(Board& board, int selected_number) -> int
     {
         for (const auto& cell : row)
         {
-            if (!cell.second)
+            if (!IsVisited(cell))
             {
                 board_score += cell.first;
             }
