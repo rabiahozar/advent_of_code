@@ -17,7 +17,7 @@ private:
     auto move(std::vector<Command>& commands) -> int;
     auto move_with_aim(std::vector<Command>& commands) -> double;
 public:
-    auto solve() -> void override;
+    auto Solve() -> void override;
 };
 
 }

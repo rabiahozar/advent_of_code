@@ -4,6 +4,7 @@
 #include <sonar_sweep.h>
 #include <dive.h>
 #include <life_support.h>
+#include <bingo.h>
 
 namespace advent
 {
@@ -20,8 +21,11 @@ auto select_day(int selected_day) -> std::unique_ptr<AdventOfCode>
     case 3:
         return std::move(std::make_unique<advent::Day3>());
         break;
+    case 4:
+        return std::move(std::make_unique<advent::Day4>());
+        break;
     default:
-        std::cerr << "This day has not been solved." << std::endl;
+        std::cerr << "This day has not been Solved." << std::endl;
         return {};
         break;
     }
@@ -37,7 +41,7 @@ int main(int argc, char** argv)
         std::cout << "Selected Day of Advent Calendar: " << selected_day << std::endl;
         if (const auto& calendar_day = advent::select_day(selected_day))
         {
-            calendar_day->solve();
+            calendar_day->Solve();
         }
     }
     else

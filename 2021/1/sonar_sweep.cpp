@@ -51,7 +51,7 @@ auto Day1::calculate_increased_window_count(std::vector<int>& numbers) -> int
     }
     return calculate_increased_days(sums);
 }
-auto Day1::solve() -> void
+auto Day1::Solve() -> void
 {
     std::vector<int> numbers;
     if (read_input(numbers))

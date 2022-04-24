@@ -5,7 +5,7 @@ namespace advent
 class AdventOfCode 
 {
 public:
-    virtual auto solve() -> void =0;
+    virtual auto Solve() -> void =0;
 };
 
 } //namespace advent

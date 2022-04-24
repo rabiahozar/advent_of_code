@@ -139,7 +139,7 @@ auto Day3::get_life_support_rating_of_submarine(Diagnostic& report) -> int
     return calculate_oxygen_genarator_rating(report) * 
             calculate_co2_scrubber_rating(report);
 }
-auto Day3::solve() -> void
+auto Day3::Solve() -> void
 {
     Diagnostic report;
     if (read_input(report))

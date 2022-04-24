@@ -22,7 +22,7 @@ private:
     auto get_life_support_rating_of_submarine(Diagnostic& report) -> int;
 
 public:
-    auto solve() -> void override;
+    auto Solve() -> void override;
 };
 
 }  // namespace advent

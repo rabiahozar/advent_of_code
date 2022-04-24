@@ -76,7 +76,7 @@ auto Day2::move_with_aim(std::vector<Command>& commands) -> double
     std::cout << position_x << " " << position_y << std::endl;
     return position_x * position_y;
 }
-auto Day2::solve() -> void
+auto Day2::Solve() -> void
 {
     std::vector<Command> commands;
     if (read_input(commands))
