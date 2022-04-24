@@ -85,9 +85,9 @@ auto Day4::ReadInput() -> int
     return -1;
 }
 
-auto Day4::MarkVisited(Board& board, int row, int column) -> void
+auto Day4::MarkVisited(Board& board, std::pair<int, int>& coordinate) -> void
 {
-    board[row][column].second = true;
+    board[coordinate.first][coordinate.second].second = true;
 }
 auto Day4::IsBingo(Board& board) -> bool
 {
@@ -142,7 +142,7 @@ auto Day4::FindWinnerBoardScore() -> int
         {
             if (coordinate_iterator->find(number) != coordinate_iterator->end())
             {
-                MarkVisited(*board_iterator, coordinate_iterator->at(number).first, coordinate_iterator->at(number).second);
+                MarkVisited(*board_iterator, coordinate_iterator->at(number));
             }
             if (IsBingo(*board_iterator))
             {
@@ -172,7 +172,7 @@ auto Day4::FindLoserBoardScore() -> int
             auto& coordinates = _coordinates[i];
             if (coordinates.find(number) != coordinates.end())
             {
-                MarkVisited(board, coordinates[number].first, coordinates[number].second);
+                MarkVisited(board, coordinates[number]);
             }
             if (IsBingo(board))
             {
