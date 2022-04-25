@@ -4,7 +4,8 @@ set (CMAKE_CXX_STANDARD 14)
 project(advent_of_code)
 
 SET(HEADERS 
-    advent.h 
+    include/advent.h 
+    include/helper.h 
     1/sonar_sweep.h
     2/dive.h
     3/life_support.h
@@ -24,6 +25,7 @@ add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/
+    ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/1
     ${CMAKE_SOURCE_DIR}/2
     ${CMAKE_SOURCE_DIR}/3
