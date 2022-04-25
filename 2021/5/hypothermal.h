@@ -17,8 +17,9 @@ private:
     // methods
     auto ReadInput() -> int;
     auto MarkCoveredLines() -> void ;
+    auto MarkCoveredLines2() -> void ;
     auto CountIntersections() -> int;
-    
+
 private:  
     // variables
     std::vector<Interval> _intervals;
