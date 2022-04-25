@@ -9,14 +9,16 @@ SET(HEADERS
     2/dive.h
     3/life_support.h
     4/bingo.h
-)
+    5/hypothermal.h
+    )
 SET(SOURCES
     main.cpp
     1/sonar_sweep.cpp
     2/dive.cpp
     3/life_support.cpp
     4/bingo.cpp
-)
+    5/hypothermal.cpp
+    )
 
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 
@@ -26,9 +28,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/2
     ${CMAKE_SOURCE_DIR}/3
     ${CMAKE_SOURCE_DIR}/4
-)
+    ${CMAKE_SOURCE_DIR}/5
+    )
 
 add_subdirectory(1)
 add_subdirectory(2)
 add_subdirectory(3)
 add_subdirectory(4)
+add_subdirectory(5)
