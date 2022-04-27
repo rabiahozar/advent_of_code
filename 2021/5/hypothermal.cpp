@@ -4,8 +4,8 @@
 
 #include <hypothermal.h>
 // TODO make dynamic
-#define COLUMN_SIZE 10
-#define ROW_SIZE 10
+#define COLUMN_SIZE 1000
+#define ROW_SIZE 1000
 
 namespace advent
 {
@@ -59,7 +59,18 @@ auto Day5::ReadInput() -> int
     }
     return -1;
 }
-auto Day5::MarkCoveredLines2() -> void 
+auto Day5::MarktPoint(int index) -> void
+{
+    if (_cover_map.count(index)==0)
+    {
+        _cover_map[index] = 1;
+    }
+    else
+    {
+        _cover_map[index]++;
+    }
+}
+auto Day5::MarkCoveredDiagonalLines() -> void 
 {
     for (const auto& internal : _intervals)
     {
@@ -68,97 +79,54 @@ auto Day5::MarkCoveredLines2() -> void
         {
             int start_x = internal.first.first;
             int end_x = internal.second.first;
-            int start_y, end_y;
-            
+            int start_y = internal.first.second;
+            int end_y = internal.second.second;
             // right and down
             if (internal.first.second < internal.second.second)
             {
-                start_y = internal.first.second;
-                end_y = internal.second.second;
                 for (; start_x <= end_x , start_y <= end_y ; start_x++, start_y++)
                 {
-                    std::cout << "Cover RD: " << start_x << "," << start_y << std::endl;
                     int index = start_y*COLUMN_SIZE + start_x;
-                    if (_cover_map.find(index) != _cover_map.end())
-                    {
-                        _cover_map[index] = 1;
-                    }
-                    else
-                    {
-                        _cover_map[index]++;
-                    }
+                    MarktPoint(index);
                 }
-
             }
-            else if ((internal.first.second > internal.second.second)) // right up
+            else if (internal.first.second > internal.second.second) // right up
             {
-                start_y = internal.first.second;
-                end_y = internal.second.second;
-
                 for (; start_x <= end_x , start_y >= end_y ; start_x++, start_y--)
                 {
-                    std::cout << "Cover RU: " << start_x << "," << start_y << std::endl;
                     int index = start_y*COLUMN_SIZE + start_x;
-                    if (_cover_map.find(index) != _cover_map.end())
-                    {
-                        _cover_map[index] = 1;
-                    }
-                    else
-                    {
-                        _cover_map[index]++;
-                    }
+                    MarktPoint(index);
                 }
             }
         }
-        else if (internal.first.first > internal.second.first)
+        else if (internal.first.first > internal.second.first) //left
         {
             int start_x = internal.first.first;
             int end_x = internal.second.first;
-            int start_y, end_y;
+            int start_y = internal.first.second;
+            int end_y = internal.second.second;
             // y1 > y2
             
             // left and down
             if (internal.first.second < internal.second.second)
             {
-                start_y = internal.first.second;
-                end_y = internal.second.second;
                 for (; start_x >= end_x , start_y <= end_y ; start_x--, start_y++)
                 {
-                    std::cout << "Cover LD: " << start_x << "," << start_y << std::endl;
                     int index = start_y*COLUMN_SIZE + start_x;
-                    if (_cover_map.find(index) != _cover_map.end())
-                    {
-                        _cover_map[index] = 1;
-                    }
-                    else
-                    {
-                        _cover_map[index]++;
-                    }
+                    MarktPoint(index);
                 }
-
             }
             else if (internal.first.second > internal.second.second)// left and up
             {
-                start_y = internal.first.second;
-                end_y = internal.second.second;
-
                 for (; start_x >= end_x , start_y >= end_y ; start_x--, start_y--)
                 {
-                    std::cout << "Cover LU: " << start_x << "," << start_y << std::endl;
                     int index = start_y*COLUMN_SIZE + start_x;
-                    if (_cover_map.find(index) != _cover_map.end())
-                    {
-                        _cover_map[index] = 1;
-                    }
-                    else
-                    {
-                        _cover_map[index]++;
-                    }
+                    MarktPoint(index);
                 }
             }
         }
     }
-    Visualize(_cover_map);
+    // Visualize(_cover_map);
 }
 
 auto Day5::MarkCoveredLines() -> void 
@@ -182,15 +150,8 @@ auto Day5::MarkCoveredLines() -> void
             }
             for (; start <= end;start++)
             {
-                int index =start*ROW_SIZE + internal.first.first;
-                if (_cover_map.count(index) == 0)
-                {
-                    _cover_map[index] = 1;
-                }
-                else
-                {
-                    _cover_map[index]++;
-                }
+                int index =start*COLUMN_SIZE + internal.first.first;
+                MarktPoint(index);
             }
         }
         else if (internal.first.second == internal.second.second) // y1 = y2
@@ -209,19 +170,12 @@ auto Day5::MarkCoveredLines() -> void
             }
             for (; start <= end;start++)
             {
-                int index = internal.first.second*ROW_SIZE + start;
-                if (_cover_map.count(index) == 0)
-                {
-                    _cover_map[index] = 1;
-                }
-                else
-                {
-                    _cover_map[index]++;
-                }
+                int index = internal.first.second*COLUMN_SIZE + start;
+                MarktPoint(index);
             }
         }
     }
-    Visualize(_cover_map);
+    // Visualize(_cover_map);
 }
 auto Day5::CountIntersections() -> int
 {
@@ -242,7 +196,7 @@ auto Day5::Solve() -> void
     {
         MarkCoveredLines();
         std::cout << "Part1.Result: " << CountIntersections() << std::endl;
-        MarkCoveredLines2();
+        MarkCoveredDiagonalLines();
         std::cout << "Part2.Result: " << CountIntersections() << std::endl;
     }
 }

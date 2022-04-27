@@ -17,8 +17,9 @@ private:
     // methods
     auto ReadInput() -> int;
     auto MarkCoveredLines() -> void ;
-    auto MarkCoveredLines2() -> void ;
+    auto MarkCoveredDiagonalLines() -> void ;
     auto CountIntersections() -> int;
+    auto MarktPoint(int index) -> void;
 
 private:  
     // variables
