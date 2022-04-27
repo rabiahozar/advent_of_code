@@ -6,6 +6,7 @@
 #include <life_support.h>
 #include <bingo.h>
 #include <hypothermal.h>
+#include <lanternfish.h>
 
 namespace advent
 {
@@ -27,6 +28,9 @@ auto select_day(int selected_day) -> std::unique_ptr<AdventOfCode>
         break;
     case 5:
         return std::move(std::make_unique<advent::Day5>());
+        break;
+    case 6:
+        return std::move(std::make_unique<advent::Day6>());
         break;
     default:
         std::cerr << "This day has not been solved." << std::endl;

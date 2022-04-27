@@ -11,6 +11,7 @@ SET(HEADERS
     3/life_support.h
     4/bingo.h
     5/hypothermal.h
+    6/lanternfish.h
     )
 SET(SOURCES
     main.cpp
@@ -19,6 +20,7 @@ SET(SOURCES
     3/life_support.cpp
     4/bingo.cpp
     5/hypothermal.cpp
+    6/lanternfish.cpp
     )
 
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
@@ -31,6 +33,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/3
     ${CMAKE_SOURCE_DIR}/4
     ${CMAKE_SOURCE_DIR}/5
+    ${CMAKE_SOURCE_DIR}/6
     )
 
 add_subdirectory(1)
@@ -38,3 +41,4 @@ add_subdirectory(2)
 add_subdirectory(3)
 add_subdirectory(4)
 add_subdirectory(5)
+add_subdirectory(6)
