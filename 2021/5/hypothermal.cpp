@@ -9,6 +9,10 @@
 
 namespace advent
 {
+auto find_map_index(int row, int column) -> int
+{
+    return row*COLUMN_SIZE+column;
+}
 auto Visualize(std::map<int, int>& cover_map)
 {
     // Visualization
@@ -70,58 +74,86 @@ auto Day5::MarktPoint(int index) -> void
         _cover_map[index]++;
     }
 }
+auto Day5::FindHorizantalDirection(const Coordinate& start_coordination, const Coordinate& end_coordination) -> Direction
+{
+    if (start_coordination.first < end_coordination.first)
+    {
+        return RIGHT;
+    }
+    else if (start_coordination.first > end_coordination.first)
+    {
+        return LEFT;
+    }
+    else 
+    {
+        return NOT_MOVE;
+    }
+}
+auto Day5::FindVerticalDirection(const Coordinate& start_coordination, const Coordinate& end_coordination) -> Direction
+{
+    if (start_coordination.second < end_coordination.second)
+    {
+        return DOWN;
+    }
+    else if (start_coordination.second > end_coordination.second)
+    {
+        return UP;
+    }
+    else
+    {
+        return NOT_MOVE;
+    }
+}
 auto Day5::MarkCoveredDiagonalLines() -> void 
 {
-    for (const auto& internal : _intervals)
+    for (const auto& interval : _intervals)
     {
-        // x1,y1 < x2, y2 right
-        if (internal.first.first < internal.second.first)
+        const auto& start_coordination = interval.first;
+        const auto& end_coordination = interval.second;
+        const auto horizantal_direction = FindHorizantalDirection(start_coordination,end_coordination);
+        if (horizantal_direction == RIGHT)
         {
-            int start_x = internal.first.first;
-            int end_x = internal.second.first;
-            int start_y = internal.first.second;
-            int end_y = internal.second.second;
-            // right and down
-            if (internal.first.second < internal.second.second)
+            int start_x = start_coordination.first;
+            int end_x = end_coordination.first;
+            int start_y = start_coordination.second;
+            int end_y = end_coordination.second;
+
+            const auto vertical_direction = FindVerticalDirection(start_coordination,end_coordination);
+            if (vertical_direction == DOWN)
             {
                 for (; start_x <= end_x , start_y <= end_y ; start_x++, start_y++)
                 {
-                    int index = start_y*COLUMN_SIZE + start_x;
-                    MarktPoint(index);
+                    MarktPoint(find_map_index(start_y, start_x));
                 }
             }
-            else if (internal.first.second > internal.second.second) // right up
+            else if (vertical_direction == UP) 
             {
                 for (; start_x <= end_x , start_y >= end_y ; start_x++, start_y--)
                 {
-                    int index = start_y*COLUMN_SIZE + start_x;
-                    MarktPoint(index);
+                    MarktPoint(find_map_index(start_y, start_x));
                 }
             }
         }
-        else if (internal.first.first > internal.second.first) //left
+        else if (horizantal_direction == LEFT) 
         {
-            int start_x = internal.first.first;
-            int end_x = internal.second.first;
-            int start_y = internal.first.second;
-            int end_y = internal.second.second;
-            // y1 > y2
-            
-            // left and down
-            if (internal.first.second < internal.second.second)
+            int start_x = start_coordination.first;
+            int end_x = end_coordination.first;
+            int start_y = start_coordination.second;
+            int end_y = end_coordination.second;
+
+            const auto vertical_direction = FindVerticalDirection(start_coordination,end_coordination);
+            if (vertical_direction == DOWN)
             {
                 for (; start_x >= end_x , start_y <= end_y ; start_x--, start_y++)
                 {
-                    int index = start_y*COLUMN_SIZE + start_x;
-                    MarktPoint(index);
+                    MarktPoint(find_map_index(start_y, start_x));
                 }
             }
-            else if (internal.first.second > internal.second.second)// left and up
+            else if (vertical_direction == UP)
             {
                 for (; start_x >= end_x , start_y >= end_y ; start_x--, start_y--)
                 {
-                    int index = start_y*COLUMN_SIZE + start_x;
-                    MarktPoint(index);
+                    MarktPoint(find_map_index(start_y, start_x));
                 }
             }
         }
@@ -131,47 +163,50 @@ auto Day5::MarkCoveredDiagonalLines() -> void
 
 auto Day5::MarkCoveredLines() -> void 
 {
-    for (const auto& internal : _intervals)
+    for (const auto& interval : _intervals)
     {
+        const auto& start_coordination = interval.first;
+        const auto& end_coordination = interval.second;
+
         // x1 = x2
-        if (internal.first.first == internal.second.first)
+        if (FindHorizantalDirection(start_coordination,end_coordination) == NOT_MOVE)
         {
             int start, end;
             // y1 > y2
-            if (internal.first.second > internal.second.second)
+            auto direction = FindVerticalDirection(start_coordination,end_coordination);
+            if (direction == UP)
             {
-                end = internal.first.second;
-                start = internal.second.second;
+                end = start_coordination.second;
+                start = end_coordination.second;
             }
             else // y2>=y1
             {
-                start = internal.first.second;
-                end = internal.second.second;
+                start = start_coordination.second;
+                end = end_coordination.second;
             }
             for (; start <= end;start++)
             {
-                int index =start*COLUMN_SIZE + internal.first.first;
-                MarktPoint(index);
+                MarktPoint(find_map_index(start, start_coordination.first));
             }
         }
-        else if (internal.first.second == internal.second.second) // y1 = y2
+        else if (FindVerticalDirection(start_coordination,end_coordination) == NOT_MOVE) // y1 = y2
         {
             int start, end;
-            // x1 > x2
-            if (internal.first.first > internal.second.first)
+            
+            auto direction = FindHorizantalDirection(start_coordination,end_coordination);
+            if (direction == LEFT)
             {
-                end = internal.first.first;
-                start = internal.second.first;
+                end = start_coordination.first;
+                start = end_coordination.first;
             }
-            else // x2 >= x2
+            else 
             {
-                start = internal.first.first;
-                end = internal.second.first;
+                start = start_coordination.first;
+                end = end_coordination.first;
             }
             for (; start <= end;start++)
             {
-                int index = internal.first.second*COLUMN_SIZE + start;
-                MarktPoint(index);
+                MarktPoint(find_map_index(start_coordination.second, start));
             }
         }
     }

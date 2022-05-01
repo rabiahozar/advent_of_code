@@ -10,12 +10,22 @@ namespace advent {
 
 using Coordinate = std::pair<int, int>;
 using Interval = std::pair<Coordinate, Coordinate>;
+enum Direction
+{
+    NOT_MOVE,
+    RIGHT,
+    LEFT,
+    UP,
+    DOWN,
+};
 
 class Day5 : public AdventOfCode
 {
 private:
     // methods
     auto ReadInput() -> int;
+    auto FindHorizantalDirection(const Coordinate& start_coordination, const Coordinate& end_coordination) -> Direction;
+    auto FindVerticalDirection(const Coordinate& start_coordination, const Coordinate& end_coordination) -> Direction;
     auto MarkCoveredLines() -> void ;
     auto MarkCoveredDiagonalLines() -> void ;
     auto CountIntersections() -> int;
